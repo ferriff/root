@@ -622,7 +622,8 @@ extern "C" {
        extern int finite(double);
 #   endif
 #   if !defined(isnan)
-       extern int isnan(double);
+       //extern int isnan(double);
+       // not sure if MUSL or if c++ 10.3.1, but it seems std::isnan is defined already
 #   endif
    extern double ldexp(double, int);
    extern double ceil(double);

@@ -44,11 +44,11 @@
 #endif
 
 #if !defined(R__VA_COPY)
-#  if defined(__GNUC__) && !defined(__FreeBSD__)
+#  if defined(__GNUC__) && !defined(__FreeBSD__) && !defined(MUSL)
 #     define R__VA_COPY(to, from) __va_copy((to), (from))
 #  elif defined(__va_copy)
 #     define R__VA_COPY(to, from) __va_copy((to), (from))
-#  elif defined(va_copy)
+#  elif defined(va_copy) || defined(MUSL)
 #     define R__VA_COPY(to, from) va_copy((to), (from))
 #  elif defined(_WIN32) && _MSC_VER < 1310
 #     define R__VA_COPY(to, from) (*(to) = *(from))

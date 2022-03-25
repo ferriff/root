@@ -36,11 +36,12 @@
     (defined(__APPLE_CC__) && __APPLE_CC__ > 5000  && !defined(MAC_OS_X_VERSION_10_6))
 #include <bits/atomicity.h>
 #else
-#include <ext/atomicity.h>
+//#include <ext/atomicity.h> // fe (MUSL context)
 #endif
 
 #if defined(__GLIBCXX__) // g++ 3.4+
 
+#include <memory> // fe (MUSL context)
 using __gnu_cxx::__atomic_add;
 using __gnu_cxx::__exchange_and_add;
 

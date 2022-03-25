@@ -24,7 +24,7 @@
 #include <signal.h>
 #include <sys/stat.h>
 #include <sys/param.h>
-#if defined(__sun) || defined(__sgi)
+#if defined(__sun) || defined(__sgi) || defined(MUSL)
 #  include <fcntl.h>
 #endif
 
@@ -48,7 +48,7 @@
 #define USE_SIGCHLD
 #endif
 
-#if defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__APPLE__)
+#if defined(__FreeBSD__) || defined(__OpenBSD__) || defined(__APPLE__) || defined(MUSL)
 #define USE_SIGCHLD
 #define SIGCLD SIGCHLD
 #endif
@@ -76,7 +76,7 @@ static void SigChild(int)
 {
    int         pid;
 #if defined(__hpux) || defined(__FreeBSD__) || defined(__OpenBSD__) || \
-    defined(__APPLE__)
+    defined(__APPLE__) || defined(MUSL)
    int status;
 #else
    union wait  status;

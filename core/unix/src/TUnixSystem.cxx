@@ -155,7 +155,8 @@
       (defined(R__SUNGCC3) && defined(__arch64__)) || \
       defined(R__OBSD) || defined(MAC_OS_X_VERSION_10_4) || \
       (defined(R__AIX) && defined(_AIX43)) || \
-      (defined(R__SOLARIS) && defined(_SOCKLEN_T))
+      (defined(R__SOLARIS) && defined(_SOCKLEN_T)) || \
+      defined(MUSL)
 #   define USE_SOCKLEN_T
 #endif
 
@@ -213,7 +214,7 @@ extern "C" {
 #endif
 
 // FPE handling includes
-#if (defined(R__LINUX) && !defined(R__WINGCC))
+#if (defined(R__LINUX) && !defined(R__WINGCC) && !defined(MUSL))
 #include <fpu_control.h>
 #include <fenv.h>
 #include <sys/prctl.h>    // for prctl() function used in StackTrace()

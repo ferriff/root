@@ -108,7 +108,7 @@ robust Streamer mechanism I opted for 3).
 #include <sys/ipc.h>
 #include <sys/sem.h>
 #if defined(R__HPUX) || \
-    defined (R__SOLARIS) || defined(R__AIX) || defined(R__HIUX) || \
+    defined (R__SOLARIS) || defined(R__AIX) || defined(R__HIUX) || defined(MUSL) || \
     __GLIBC_MINOR__ > 0
 union semun {
    int val;                      // value for SETVAL
