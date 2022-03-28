@@ -43,7 +43,9 @@ Int_t TPosixThread::Run(TThread *th, const int affinity)
       cpu_set_t cpuset;
       CPU_ZERO(&cpuset);
       CPU_SET(affinity, &cpuset);
+   #if !defined(MUSL)
       pthread_attr_setaffinity_np(attr, sizeof(cpu_set_t), &cpuset);
+   #endif
    #endif
    }
 
@@ -61,6 +63,9 @@ Int_t TPosixThread::Run(TThread *th, const int affinity)
       pthread_attr_setstacksize(attr, requiredStackSize);
    }
    int ierr = pthread_create(&id, attr, &TThread::Function, th);
+#if !defined(MUSL)
+   pthread_setaffinity_np(id, sizeof(cpuset), &cpuset);
+#endif
    if (!ierr) th->fId = (Long_t) id;
 
    pthread_attr_destroy(attr);
