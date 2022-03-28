@@ -100,6 +100,8 @@ extern "C" int fstatfs(int file_descriptor, struct statfs *buffer);
 #if defined(cygwingcc) && !defined(F_LOCK) && !defined(F_ULOCK)
 #define F_LOCK F_WRLCK
 #define F_ULOCK F_UNLCK
+#endif
+#if defined(cygwingcc) && !defined(F_LOCK) && !defined(F_ULOCK) || defined(MUSL)
 int ruserok(const char *, int, const char *, const char *) {
    return 0;
 }
