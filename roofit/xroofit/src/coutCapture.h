@@ -13,6 +13,7 @@
 #include "TSystem.h"
 #include "TUUID.h"
 #include <fstream>
+#include <iostream>
 
 struct cout_redirect {
    cout_redirect(std::string &_out, size_t bufSize = 102 * 1024) : buffer2(nullptr), fp(nullptr), out(_out), fBufSize(bufSize)
@@ -24,26 +25,29 @@ struct cout_redirect {
       old3 = stdout; old4 = stderr;
       //buffer2 = (char *)calloc(sizeof(char), bufSize);fp = fmemopen(buffer2, bufSize, "w");
       fp = gSystem->TempFileName(filename);
-      if(fp) {
-         stdout = fp;
-         stderr = fp;
-      }
+      //// stdout is a FILE * const in MUSL
+      // if(fp) {
+      //    stdout = fp;
+      //    stderr = fp;
+      // }
 
    }
    ~cout_redirect()
    {
       std::cout.rdbuf(old);
       std::cerr.rdbuf(old2);
-      stdout = old3;
-      stderr = old4;
-      if(fp) {
-         std::fclose(fp);
-         {
-            std::ifstream t(filename);
-            buffer << t.rdbuf();
-         }
-         gSystem->Unlink(filename); // delete the temp file
-      }
+      //// stdout and stderr are a FILE * const in MUSL
+      //stdout = old3;
+      //stderr = old4;
+      //// stdout is a FILE * const in MUSL
+      // if(fp) {
+      //    std::fclose(fp);
+      //    {
+      //       std::ifstream t(filename);
+      //       buffer << t.rdbuf();
+      //    }
+      //    gSystem->Unlink(filename); // delete the temp file
+      // }
       out = buffer.str();
       if(buffer2) {
          out += buffer2;
